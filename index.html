@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment-2</title>
+
+    <!-- Bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- connected files  -->
+    <script src="./src/assets/styles/index.js"></script>
+    <link rel="stylesheet" href="./src/assets/styles/style.css">
+
+    <!-- font awesome CDN  -->
+    <script src="https://kit.fontawesome.com/YOUR_FA_KIT.js" crossorigin="anonymous"></script>
+
+    <!-- internal css  -->
+    <style>
+        /* Sidebar Styling */
+        .sidebar {
+            background: #fff;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            height: calc(100% - 70px);
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(0);
+            /* Always show on larger screens */
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #f0f0f0;
+        }
+
+        .main-content {
+            transition: margin-left 0.3s ease-in-out;
+            padding: 20px;
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                /* Initially hidden on small screens */
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+                /* Show sidebar when active */
+            }
+
+            .main-content {
+                margin-left: 0;
+                /* Full width when sidebar is hidden */
+            }
+        }
+
+        /* Custom Styling for Full-width Dropdown */
+        .custom-dropdown {
+            width: 100%;
+        }
+
+        .custom-dropdown-menu {
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+
+        /* Tags */
+        /* Multi-select Tag Styling */
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            min-height: 38px;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .tag {
+            background-color: #e0e0ff;
+            color: #333;
+            padding: 3px 8px;
+            margin: 2px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+
+        .tag .remove {
+            margin-left: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+        }
+
+        /* Responsive Course Cards */
+        .course-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+
+        }
+
+        @media (min-width: 768px) {
+            .course-card {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Container -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-12 midia">
+                <!-- Navbar -->
+                <div class="row">
+                    <div class="col-12">
+                        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom w-100 py-3 position-fixed top-0"
+                            style="z-index: 1000;">
+                            <div class="container-fluid">
+                                <!-- Logo -->
+                                <a class="navbar-brand d-flex align-items-center" href="#">
+                                    <img src="./src/assets/icons/TCC..jpg" alt="Logo" height="50" class="me-2">
+                                </a>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarContent">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <!-- Create New Learning Path/ Country -->
+                                <div class="collapse navbar-collapse" id="navbarContent">
+                                    <div class="ms-3 d-none d-md-block ps-5">
+                                        <h5 class="mb-0">Create New Learning Path</h5>
+                                        <small class="text-muted">Learning Paths > Learning Path > Create New Learning
+                                            Path > Edit Learning Path</small>
+                                    </div>
+                                    <!-- Country and Language/ Profile/ icon -->
+                                    <ul class="navbar-nav ms-auto align-items-center">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                                                data-bs-toggle="dropdown">
+                                                <img src="./src/assets/icons/flag.png" alt="" height="20" width="20"
+                                                    class="me-1"> Hindi (IND)
+                                            </a>
+                                            <!-- Country -->
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"><img
+                                                            src="./src/assets/icons/british-columbia.jpg.png"
+                                                            height="20" width="20" class="me-1"> English
+                                                        (British-Columbia)</a></li>
+                                                <li><a class="dropdown-item" href="#"><img
+                                                            src="./src/assets/icons/australia.jpg.png" height="20"
+                                                            width="20" class="me-1"> Spanish (Australia)</a></li>
+                                                <li><a class="dropdown-item" href="#"><img
+                                                            src="./src/assets/icons/japan.jpg.png" height="20"
+                                                            width="20" class="me-1"> English (Japan)</a></li>
+                                                <li><a class="dropdown-item" href="#"><img
+                                                            src="./src/assets/icons/new-zealand.jpg.png" height="20"
+                                                            width="20" class="me-1"> Spanish (New-Zealand)</a></li>
+                                            </ul>
+                                        </li>
+                                        <!-- bell icon -->
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#"><i class="bi bi-bell"></i></a>
+                                        </li>
+                                        <!-- seting icon -->
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#"><i class="bi bi-gear"></i></a>
+                                        </li>
+                                        <!-- profile-1 -->
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
+                                                data-bs-toggle="dropdown">
+                                                <img src="./src/assets/icons/image.jpg" width="32" height="32"
+                                                    class="rounded-circle me-2" alt="Admin">
+                                                <span class="d-none d-md-inline">Ales Lee</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Sidebar and Web Content -->
+                <div class="row">
+                    <div class="col-12 col-md-2">
+                        <!-- Sidebar -->
+                        <div class="sidebar mt-4" id="sidebar" style="z-index: 1000;">
+                            <button class="btn btn-danger d-md-none m-2" id="closeSidebar">✖</button>
+                            <a href="#" class="sidebar-link"><i class="fas fa-th-large"></i> Dashboard</a>
+                            <a href="#" class="sidebar-link toggle-submenu"><i class="fas fa-users"></i> Team Members <i
+                                    class="fa fa-chevron-down ms-auto"></i></a>
+                            <div class="submenu">
+                                <a href="#"><i class="fas fa-user"></i> Team Member</a>
+                                <a href="#"><i class="fas fa-certificate"></i> Certification</a>
+                            </div>
+                            <a href="#" class="sidebar-link"><i class="fas fa-project-diagram"></i> Projects</a>
+                            <a href="#" class="sidebar-link"><i class="fas fa-user-tie"></i> Clients</a>
+                            <a href="#" class="sidebar-link toggle-submenu"><i class="fas fa-graduation-cap"></i>
+                                Learning Paths <i class="fa fa-chevron-down ms-auto"></i></a>
+                            <div class="submenu">
+                                <a href="#"><i class="fas fa-laptop-code"></i> Learning Path</a>
+                                <a href="#"><i class="fas fa-book"></i> Courses</a>
+                                <a href="#"><i class="fas fa-users"></i> Skill Sets</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-10">
+                        <!-- Web Page Content -->
+                        <div class="main-content" style="margin-top: 60px;">
+                            <button class="btn btn-primary m-3 d-md-none" id="sidebarToggle">☰ </button>
+                            <div class="container-fluid mb-2 mt-5 border">
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="row align-items-center border-bottom p-3">
+                                        <div class="col-md-10 col-12">
+                                            <h4>Create New Learning Path</h4>
+                                        </div>
+                                        <!-- Cancel and Save Button -->
+                                        <div
+                                            class="col-md-2 col-12 d-md-flex align-items-center justify-content-md-end justify-content-center">
+                                            <div class="btn-container d-flex gap-2">
+                                                <button class="btn btn-danger w-sm-100 w-md-auto">Cancel</button>
+                                                <button class="btn btn-primary w-sm-100 w-md-auto">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Course/ Container/ Rows -->
+                                    <div class="row">
+                                        <div class="row align-items-center p-4">
+                                            <!-- Profile-2 Image -->
+                                            <div class="col-md-3 col-sm-12 text-center mb-3">
+                                                <img src="./src/assets/images/profile..png" alt="Profile Image"
+                                                    class="profile-img img-fluid ">
+                                            </div>
+                                            <!-- Select Courses/ Learning path / Description -->
+                                            <div class="col-md-9">
+                                                <div class="row">
+                                                    <!-- Learning path -->
+                                                    <div class="col-lg-6 col-sm-12 ">
+                                                        <label class="form-label">Learning Path</label>
+                                                        <input type="text" class="form-control" placeholder="Title">
+                                                    </div>
+                                                    <!-- Select Courses -->
+                                                    <div class="col-lg-6  col-sm-12">
+                                                        <label for="form-label ">Select Courses</label>
+                                                        <div class="dropdown text-white pt-2">
+                                                            <div class="selected-tags custom-dropdown  "
+                                                                id="selectedCourses" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
+                                                                <span class="placeholder">Select Courses...</span>
+                                                            </div>
+                                                            <ul class="dropdown-menu custom-dropdown-menu"
+                                                                aria-labelledby="dropdownMenuButton">
+                                                                <li>
+                                                                    <input type="text" class="form-control mb-2"
+                                                                        id="searchCourses" placeholder="Search...">
+                                                                </li>
+                                                                <li>
+                                                                    <label class="dropdown-item">
+                                                                        <input type="checkbox"
+                                                                            class="form-check-input me-2 course-option"
+                                                                            value="UI Development"> UI Development
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="dropdown-item">
+                                                                        <input type="checkbox"
+                                                                            class="form-check-input me-2 course-option"
+                                                                            value="Web Development"> Web Development
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="dropdown-item">
+                                                                        <input type="checkbox"
+                                                                            class="form-check-input me-2 course-option"
+                                                                            value="Database"> Database
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="dropdown-item">
+                                                                        <input type="checkbox"
+                                                                            class="form-check-input me-2 course-option"
+                                                                            value="Azure"> Azure
+                                                                    </label>
+                                                                </li>
+                                                                <li>
+                                                                    <label class="dropdown-item">
+                                                                        <input type="checkbox"
+                                                                            class="form-check-input me-2 course-option"
+                                                                            value="Power BI"> Power BI
+                                                                    </label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Description -->
+                                                <div class="row">
+                                                    <div class="col-12 mb-3">
+                                                        <label class="form-label">Description</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Description">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Course Added -->
+                                        <h5>Courses Added</h5>
+                                        <div class="container d-none d-lg-block">
+                                            <div class="row ">
+                                                <div class="col-lg-2 ">
+                                                    <h6>Courses</h6>
+                                                </div>
+                                                <div class="col-lg-5 ">
+                                                    <h6>Skill Sets</h6>
+                                                </div>
+                                                <div class="col-lg-4 ">
+                                                    <h6>Description</h6>
+                                                </div>
+                                                <div class="col-lg-1 ">
+                                                    <h6>Action</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- container -->
+                                        <div class="container">
+                                            <!-- Row-1 Web Development -->
+                                            <div class="row course-card border p-2">
+                                                <div class="col-2 p-1 pt-3">
+                                                    <div class="row d-flex">
+                                                        <div class="col-4">
+                                                            <!-- Image -->
+                                                            <img src="./src/assets/images/Web Development.png"
+                                                                height="100%" width="100%" alt=""
+                                                                class="object-fit-cover"
+                                                                style="max-width: 50px; height: auto; min-width: 40px;">
+                                                        </div>
+                                                        <div class="col-8 p-0 ms-3  ms-lg-0">
+                                                            <h6>Web Development</h6>
+                                                            <span>Duration</span>
+                                                            <span class="stopwatch-icon"><i
+                                                                    class="bi-stopwatch"></i></span>
+                                                            <span class="duration-text">80 Hrs</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Tags -->
+                                                <div class="col-5 p-0 p-1 pt-3">
+                                                    <span class="skill-tag">HTML</span>
+                                                    <span class="skill-tag">CSS</span>
+                                                    <span class="skill-tag">JavaScript</span>
+                                                    <span class="skill-tag">Bootstrap</span>
+                                                    <span class="skill-tag">Java</span>
+                                                    <span class="circle-badge">+2</span>
+                                                </div>
+                                                <!-- Link -->
+                                                <div class="col-4 p-1 pt-3 text-truncate">
+                                                    <a href="" class="">https://app.intimepro.io/app/main/dashboard</a>
+                                                    <span>ID: adam.murphy@mail.com</span>
+                                                    <p>Password: awerty#123</p>
+                                                </div>
+                                                <!-- Delete Icon -->
+                                                <div class="col-1 d-flex justify-content-center align-self-center">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                            <!-- Row-2 UI Development -->
+                                            <div class="row course-card border p-2">
+                                                <div class="col-2 p-1 pt-3">
+                                                    <div class="row d-flex">
+                                                        <div class="col-4">
+                                                            <!-- Image -->
+                                                            <img src="./src/assets/images/ui..png" height="100%"
+                                                                width="100%" alt="" class="object-fit-cover"
+                                                                style="max-width: 50px; height: auto; min-width: 40px;">
+                                                        </div>
+                                                        <div class="col-8 p-0 ms-3  ms-lg-0">
+                                                            <h6> UI Development</h6>
+                                                            <span>Duration</span>
+                                                            <span class="stopwatch-icon"><i
+                                                                    class="bi-stopwatch"></i></span>
+                                                            <span class="duration-text">80 Hrs</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Tags -->
+                                                <div class="col-5 p-0 p-1 pt-3">
+                                                    <span class="skill-tag">HTML</span>
+                                                    <span class="skill-tag">CSS</span>
+                                                    <span class="skill-tag">JavaScript</span>
+                                                    <span class="skill-tag">Bootstrap</span>
+                                                    <span class="skill-tag">Java</span>
+                                                    <span class="circle-badge">+2</span>
+                                                </div>
+                                                <!-- Link -->
+                                                <div class="col-4 p-1 pt-3 text-truncate">
+                                                    <a href="">https://app.intimepro.io/app/main/dashboard</a>
+                                                    <span>ID: adam.murphy@mail.com</span>
+                                                    <p>Password: awerty#123</p>
+                                                </div>
+                                                <!-- Delete Icon -->
+                                                <div class="col-1 d-flex justify-content-center align-self-center">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                            <!-- Row-3 Power BI -->
+                                            <div class="row course-card border p-2">
+                                                <div class="col-2 p-1 pt-3">
+                                                    <div class="row d-flex">
+                                                        <div class="col-4">
+                                                            <!-- Image -->
+                                                            <img src="./src/assets/images/Power BI.png" height="100%"
+                                                                width="100%" alt="" class="object-fit-cover"
+                                                                style="max-width: 50px; height: auto; min-width: 40px;">
+                                                        </div>
+                                                        <div class="col-8 p-0 ms-3  ms-lg-0">
+                                                            <h6>Power BI</h6>
+                                                            <span>Duration</span>
+                                                            <span class="stopwatch-icon"><i
+                                                                    class="bi-stopwatch"></i></span>
+                                                            <span class="duration-text">80 Hrs</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Tags -->
+                                                <div class="col-5 p-0 p-1 pt-3">
+                                                    <span class="skill-tag">HTML</span>
+                                                    <span class="skill-tag">CSS</span>
+                                                    <span class="skill-tag">JavaScript</span>
+                                                    <span class="skill-tag">Bootstrap</span>
+                                                    <span class="skill-tag">Java</span>
+                                                    <span class="circle-badge">+2</span>
+                                                </div>
+                                                <!-- Link -->
+                                                <div class="col-4 p-1 pt-3 text-truncate">
+                                                    <a href="">https://app.intimepro.io/app/main/dashboard</a>
+                                                    <span>ID: adam.murphy@mail.com</span>
+                                                    <p>Password: awerty#123</p>
+                                                </div>
+                                                <!-- Delete icon -->
+                                                <div class="col-1 d-flex justify-content-center align-self-center">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                            <!-- Row-4 Database -->
+                                            <div class="row course-card border p-2">
+                                                <div class="col-2 p-1 pt-3">
+                                                    <div class="row d-flex">
+                                                        <div class="col-4">
+                                                            <!-- Image -->
+                                                            <img src="./src/assets/images/Database.png" height="100%"
+                                                                width="100%" alt="" class="object-fit-cover"
+                                                                style="max-width: 50px; height: auto; min-width: 40px;">
+                                                        </div>
+                                                        <div class="col-8 p-0 ms-3  ms-lg-0">
+                                                            <h6> Database</h6>
+                                                            <span>Duration</span>
+                                                            <span class="stopwatch-icon"><i
+                                                                    class="bi-stopwatch"></i></span>
+                                                            <span class="duration-text">80 Hrs</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Tags -->
+                                                <div class="col-5 p-0 p-1 pt-3">
+                                                    <span class="skill-tag">HTML</span>
+                                                    <span class="skill-tag">CSS</span>
+                                                    <span class="skill-tag">JavaScript</span>
+                                                    <span class="skill-tag">Bootstrap</span>
+                                                    <span class="skill-tag">Java</span>
+                                                    <span class="circle-badge">+2</span>
+                                                </div>
+                                                <!-- Link -->
+                                                <div class="col-4 p-1 pt-3 text-truncate">
+                                                    <a href="">https://app.intimepro.io/app/main/dashboard</a>
+                                                    <span>ID: adam.murphy@mail.com</span>
+                                                    <p>Password: awerty#123</p>
+                                                </div>
+                                                <!-- Delete Icon -->
+                                                <div class="col-1 d-flex justify-content-center align-self-center">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center justify-content-md-end me-md-3">
+                                    <li class="page-item disabled d-none d-sm-inline">
+                                        <a class="page-link" href="#" aria-label="First">«</a>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">‹</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item d-none d-sm-inline">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                    <li class="page-item d-none d-md-inline">
+                                        <a class="page-link" href="#">4</a>
+                                    </li>
+                                    <li class="page-item disabled d-none d-md-inline">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                    <li class="page-item d-none d-md-inline">
+                                        <a class="page-link" href="#">90</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">›</a>
+                                    </li>
+                                    <li class="page-item d-none d-sm-inline">
+                                        <a class="page-link" href="#" aria-label="Last">»</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebar = document.getElementById("sidebar");
+            const sidebarToggle = document.getElementById("sidebarToggle");
+            const closeSidebar = document.getElementById("closeSidebar");
+
+            // Toggle Sidebar
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener("click", function () {
+                    sidebar.classList.toggle("active");
+                });
+            }
+
+
+            // Close Sidebar
+            if (closeSidebar) {
+                closeSidebar.addEventListener("click", function () {
+                    sidebar.classList.remove("active");
+                });
+            }
+
+            // Toggle Dropdown Menus
+            document.querySelectorAll(".toggle-submenu").forEach(item => {
+                item.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    let submenu = this.nextElementSibling;
+                    if (submenu) submenu.classList.toggle("open");
+                });
+            });
+        });
+
+        // jQuery Functions
+        $(document).ready(function () {
+            // Select Course
+            $(".course-option").change(function () {
+                let selected = $(".course-option:checked").map(function () {
+                    return $(this).val();
+                }).get();
+
+                let selectedContainer = $("#selectedCourses");
+                selectedContainer.empty();
+
+                if (selected.length === 0) {
+                    selectedContainer.html('<span class="placeholder">Select Courses...</span>');
+                } else {
+                    selected.forEach(course => {
+                        selectedContainer.append(`<span class="tag">${course} <span class="remove">&times;</span></span>`);
+                    });
+                }
+
+                // Remove selected course
+                $(".remove").click(function (e) {
+                    e.stopPropagation();
+                    let courseName = $(this).parent().text().trim().slice(0, -2);
+                    $(`.course-option[value='${courseName}']`).prop("checked", false).trigger("change");
+                });
+            });
+
+            // Search Course
+            $("#searchCourses").on("keyup", function () {
+                let value = $(this).val().toLowerCase();
+                $(".dropdown-item").each(function () {
+                    $(this).toggle($(this).text().toLowerCase().includes(value));
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+
+
+/* Skill Sets styling */
+.skill-tag {
+    display: inline-block;
+    background-color: #f3e8ff; /* Light Purple Background */
+    color: #6b21a8; /* Dark Purple Text */
+    border: 1px solid #d8b4fe; /* Light Purple Border */
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin: 3px;
+    text-transform: uppercase;
+}
+/* Delete icon */
+.fa-trash {
+    color: black; /* Default color */
+    transition: color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.fa-trash:hover {
+    color: red; /* Red color on hover */
+    cursor: pointer; /* Change cursor to pointer */
+}
+/* Links (HTTP Links) */
+a {
+    color: #4A90E2 !important; /* Permanent blue color */
+    text-decoration: none; /* No underline */
+    font-weight: 500;
+}
+
+/* Stopwatch Icon */
+.stopwatch-icon {
+    color: #4A90E2 !important; /* Same blue color */
+    font-size: 14px;
+}
+
+/* Duration Text (Hrs) */
+.duration-text {
+    color: #4A90E2 !important; /* Same blue */
+    font-weight: 500;
+}
+/* +2 on cricle */
+.circle-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+/* pagination styling  */
+.pagination .page-item .page-link {
+    color: #333;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: 0.3s ease-in-out;
+}
+/* pagination Styling */
+.pagination .page-item.active .page-link {
+    background-color: blue;
+    color: white;
+    border: none;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #ccc;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+
+/*pagination Responsive  */
+@media (max-width: 768px) {
+    .pagination .page-item.d-none.d-md-inline {
+        display: none !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .pagination .page-item.d-none.d-sm-inline {
+        display: none !important;
+    }
+}
+@media (max-width: 768px) {
+    .circle-badge {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+}
+/* Skill Tags */
+@media (max-width: 576px) {
+    .skill-tag {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .trash-icon {
+        font-size: 16px;
+    }
+}
+
